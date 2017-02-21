@@ -75,41 +75,41 @@ function check_result(){
 		<h5>
 			<a><span style="color: black; font-weight: normal; font-size: 15px;">您当前的位置：</span></a>
 			<a href="admin_index.jsp"><span style="color:black;font-weight:normal;font-size:15px;">首页</span></a>->
-			<a href="#"><span style="color: black; font-weight: normal; font-size: 15px;">角色管理</span></a>
+			<a href="#"><span style="color: black; font-weight: normal; font-size: 15px;">通知公告</span></a>
 			
-			<br><br>
-</h5>
+			<br><br><a href="admin_notice_issue.jsp"><span class="right" style="color: black; font-weight: normal; font-size: 15px;">发布公告</span></a> 
+		</h5>
 
 		<fieldset>
-			<legend>用户列表</legend>
+			<legend>通知公告列表</legend>
 
 			<table width="715" height="192" border="0">
 				<tr>
-					<th width="300" scope="col">&nbsp;</th>
-					<th width="300" scope="col">&nbsp;</th>
-					<th width="300" scope="col">&nbsp;</th>
-					<th width="200" scope="col">&nbsp;</th>
-					<th width="150" scope="col">&nbsp;</th>
-					<th width="150" scope="col"><center>&nbsp;</center></th>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 				</tr>
 				<%
-					UserInfoBean myUserBean=new UserInfoBean();		
+					NotiInfoBean myNotiBean = new NotiInfoBean();
+							
 							int currPage = 1;
 							int count=0;
 							if(request.getParameter("page")!= null){
 								currPage = Integer.parseInt(request.getParameter("page"));
 							}
 						
-							int pages;	
-							ArrayList<User> myUser = new ArrayList<User>();
-							myUser = myUserBean.getUser();
-							
+							int pages;
+					  				ArrayList<Info> myNoti = new ArrayList<Info>();
+							myNoti = myNotiBean.getTheNoti();
 						  	
-							if(myUser==null)count=0;
-							else	count = myUser.size();
+							if(myNoti==null)count=0;
+							else	count = myNoti.size();
 					
-							myUser = myUserBean.findUserByPageUser(currPage);
-							request.setAttribute("list", myUser);
+							myNoti = myNotiBean.findNoticeByPageAdmin(currPage);
+							request.setAttribute("list", myNoti);
 							if(count % Info.PAGE_SIZE == 0){
 								pages = count / Info.PAGE_SIZE ; 
 							}else {
@@ -131,25 +131,19 @@ function check_result(){
 							request.setAttribute("bar", sb.toString());
 				 			
 
-							if (myUser == null) {
-								out.println("<tr><td colspan='3'>暂无任何用户</td></tr>");
+							if (myNoti == null) {
+								out.println("<tr><td colspan='3'>暂无任何通知与公告</td></tr>");
 							} else {
-								out.println("<tr>");
-							 	out.println("<td><div align=\"center\"><font color=\"red\">注册日期</font></div></td>");
-								out.println("<td><font color=\"red\">用户名</font></td>"); 
-								out.println("<td><div align=\"center\"><font color=\"red\">用户账号</font></div></td>");
-								out.println("<td><div align=\"center\"></div></td>");
-								out.println("<td><div align=\"center\"></div></td>");
-								out.println("</tr>");
-								for (int i = 0; i < myUser.size(); i++) {
+								for (int i = 0; i < myNoti.size(); i++) {
 									out.println("<tr>");
-								 	out.println("<td><div align=\"center\">【"+ myUser.get(i).getRegisterDate() + "】</div></td>");
-									 out.println("<td><a href=\"admin_user_show.jsp?UserID="
-											+ myUser.get(i).getUserID() + "\"><u>"
-											+ myUser.get(i).getUserName() + "</u></a></td>");  
-									out.println("<td><div align=\"center\">"+myUser.get(i).getUserID()+"</div></td>");
+									out.println("<td><div align=\"center\">【"
+											+ myNoti.get(i).getInfoTime() + "】</div></td>");
+									out.println("<td><a href=\"admin_notice_show.jsp?InfoID="
+											+ myNoti.get(i).getInfoID() + "\"><u>"
+											+ myNoti.get(i).getInfoTitle() + "</u></a></td>");
 									out.println("<td><div align=\"center\"></div></td>");
-									//out.println("<td><div align=\"center\"><a href=\"/OVS/DeleteInfoServlet?InfoID="+myNoti.get(i).getInfoID()+"\">删除</a></div></td>");
+									out.println("<td><div align=\"center\"></div></td>");
+									out.println("<td><div align=\"center\"><a href=\"/OVS/DeleteInfoServlet?InfoID="+myNoti.get(i).getInfoID()+"\">删除</a></div></td>");
 									out.println("</tr>");
 								}
 							}
