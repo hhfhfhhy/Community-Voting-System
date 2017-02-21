@@ -13,16 +13,6 @@ String UserID=request.getParameter("UserID");
 UserInfoBean uib=new UserInfoBean();
 %>
 <script type="text/javascript">
-function check(){
-/* 	var check1=document.getElementById("newPWD1").value;
-	var check2=document.getElementById("newPWD2").value;
-	if(check1!=check2){
-		alert("两次输入不一致！！！");
-		return false;
-	} */
-	alert("两次输入不一致！！！");
-	return false;
-}
 function check_NotNull(){
 	var userID = document.getElementById("userID").value;
 	/* var struserID=userID.replace(/(^\s*)|(\s*$)/g,''); */
@@ -38,7 +28,7 @@ function check_NotNull(){
 		<div class="login">
 			<fieldset>
 
-				<form action="/OVS/FindPWD_ChangePWD" name="login" method="post" onsubmit="return check()">
+				<form action="/OVS/FindPWD_SecurityA" name="login" method="post" onsubmit="return check_NotNull()">
 					<center>
 						<div>
 							<label for="number" class="fixedwidth">你的账号是：</label> 
@@ -47,14 +37,14 @@ function check_NotNull(){
 					</center>
 					<center>
 						<div>
-							<label for="number" class="fixedwidth">请输入新密码：</label> 
-							<input type="password" name="newPWD1" id="newPWD1" />
+							<label for="number" class="fixedwidth">你的安全问题：</label> 
+							<%=uib.getUserSecurityP(UserID)%>
 						</div>
 					</center>
 					<center>
 						<div>
-							<label for="number" class="fixedwidth">请再输入一次：</label> <input
-								type="password" name="newPWD2" id="newPWD2" />
+							<label for="number" class="fixedwidth">安全答案：</label> <input
+								type="text" name="SecurityA" id="SecurityA" />
 						</div>
 					</center>
 
